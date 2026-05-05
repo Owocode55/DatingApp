@@ -1,0 +1,36 @@
+<div class="flex flex-col w-full h-[74vh]">
+  <div class="fex flex-col flex-grow overflow-auto">
+    @for (message of messageService.messessagThread(); track message.id) {
+      <div [class.chat-start]="!message.isCurrentUserSender" [class.chat-end]="message.isCurrentUserSender" class="chat">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <img
+              alt="Tailwind CSS chat bubble component"
+              [class.avatar-online]='presenceService.onlineUsers().includes(message.senderId || message.recipientId)'
+              [src]="message.senderImageUrl || '/user.png'"
+            />
+          </div>
+        </div>
+        <div class="chat-header">
+          {{message.senderDisplayName}}
+          <time class="text-xs opacity-50">{{message.dateSent | date : 'short'}}</time>
+        </div>
+        <div class="chat-bubble">{{message.content}}</div>
+        @if(message.isCurrentUserSender && message.dateRead){
+           <div class="chat-footer opacity-50">Seen {{message.dateRead | timeAgo}}</div>
+        }
+        @else if (message.isCurrentUserSender && !message.dateRead) {
+            <div class="chat-footer opacity-50">Sent {{message.dateSent| timeAgo}}</div>
+        }@else{
+            <div class="chat-footer opacity-50">Delivered</div>
+        }
+        
+      </div>
+    }
+    <div #messageEndRef></div>
+  </div>
+ <div class="join">
+ <input type="text" class="input w-full" placeholder="Enter message" [(ngModel)]="messageContent" (keydown.enter)="createMessage()" />
+ <button class="btn btn-primary join-item" (click)="createMessage()">send</button>
+ </div>
+ </div>

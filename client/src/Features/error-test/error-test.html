@@ -1,0 +1,21 @@
+<div class="flex items-center justify-center gap-3">
+   <button class="btn btn-primary" (click)="get401Error()">401-error</button>
+   <button class="btn btn-accent" (click)="get400Validation()">400-validation</button>
+   <button class="btn btn-ghost" (click)="get404Error()">404-error</button>
+   <button class="btn btn-info" (click)="get500BadRequest()">500-badrequest</button>
+   <button class="btn btn-primary" (click)="get500Error()">500-error</button>
+
+</div>
+
+@if(modelStateError().length > 0){
+<div class="card bg-base-100 flex mt-5 w-1/2 rounded-2xl p-3 mx-auto">
+    <ul class="flex flex-col  text-red-700 text-2xl space-y-2 ">
+
+      @for (item of modelStateError(); track $index) {
+        <li>{{item}}</li>
+      }
+    </ul>
+
+</div>
+}
+

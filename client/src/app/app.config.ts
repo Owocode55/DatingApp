@@ -1,0 +1,41 @@
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
+import { provideRouter, withViewTransitions } from '@angular/router';
+
+import { routes } from './app.routes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { InitService } from '../Core/services/init-service';
+import { lastValueFrom } from 'rxjs';
+import { errorInterceptor } from '../Core/interceptors/error-interceptor';
+import { jwtInterceptor } from '../Core/interceptors/jwt-interceptor';
+import { loadInterceptor } from '../Core/interceptors/load-interceptor';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes, withViewTransitions()),
+    provideHttpClient(withInterceptors([errorInterceptor , jwtInterceptor, loadInterceptor])),
+    provideAppInitializer(async () => {
+      const initService = inject(InitService);
+      return new Promise<void>((resolve) =>{
+        setTimeout(async ()=>{
+try {
+        await lastValueFrom(initService.init());
+      } finally {
+        const splash = document.getElementById('initial-splash');
+        if (splash) {
+          splash.remove(); 
+        }
+        resolve();
+      }
+        },300)
+      })
+      
+      
+    }),
+  ],
+};

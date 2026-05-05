@@ -1,0 +1,46 @@
+<dialog #FilterModel class="modal">
+  <div class="modal-box max-w-lg">
+   <div class="text-lg font-bold justify-center">Select Filter</div>
+
+   <div class="flex justify-between w-full items-center mt-6">
+    <div class="flex flex-col w-full gap-6">
+        <label class="flex justify-between items-center">
+            <span class="font-semibold">Gender: </span>
+            <form class="filter">
+              <input type="reset" value="x" class="btn btn-square" />
+              <input type="radio" value="male" aria-label="Male" [(ngModel)]="memberParam().gender"  name="gender" aria-details="male" class="btn"/>
+              <input type="radio" value="female" aria-label="Female"  [(ngModel)]="memberParam().gender" name="gender" aria-details="female" class="btn"/>
+            </form>
+        </label>
+
+
+        <label class="flex justify-between items-center">
+            <span class="font-semibold">Select age:</span>
+            <div class="flex gap-3">
+                 <input type="number" [min]="18" [(ngModel)]="memberParam().minAge" name="minAge"  (change)="onMinAgeChange()" class="input w-20"/>
+                 <input type="number" [min]="18" [(ngModel)]="memberParam().maxAge " name="maxAge"  (change)="onMaxAgeChnage()" class="input w-20"/>
+            </div>
+        </label>
+
+        <label class="flex justify-between items-center">
+            <span class="font-semibold">Order by</span>
+            <div class="flex">
+               <select class="select" name="orderBy" [(ngModel)]="memberParam().orderBy">
+                 <option disabled selected>Order by</option>
+                 <option value="created">Newest members</option>
+                 <option value="lastActive">Active members</option>
+               </select>
+            </div>
+        </label>
+    </div>
+   </div>
+    <div class="modal-action">
+       <button (click)="submit()" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="close()"> Close</button>
+  </form>
+
+</dialog>

@@ -1,0 +1,53 @@
+<!-- @if (member$ | async; as member) { -->
+@if(memberService.member(); as member){  
+<div class="flex gap-6">
+    <div class="flex flex-col card bg-base-100 h-[88vh] w-1/4">
+      <img
+        src="{{ member.imageUrl || '/user.png' }}"
+        class="rounded-full mx-10 mt-3 object-cover"
+      />
+      <div class="card-body">
+        <div class="flex-col items-center">
+          <div class="flex text-2xl text-primary items-center">{{ member.displayName }} , {{member.dateOfBirth | age}}
+          @if(presenceService.onlineUsers().includes(member.id)){
+            <span class="status status-success status-lg ml-3"></span>
+          }
+
+          </div>
+
+          <div class="text-sm">{{ member.city }}, {{ member.country }}</div>
+        </div>
+        <div class="divider"></div>
+        <ul class="menu rounded-box w-full text-2xl">
+          <li><a routerLink="profile" routerLinkActive="text-primary">Profile</a></li>
+          <li><a routerLink="photos" routerLinkActive="text-primary">Photos</a></li>
+          <li><a routerLink="messages" routerLinkActive="text-primary">Messages</a></li>
+        </ul>
+      </div>
+
+      <div class="card-actions justify-between gap-3 px-2 mb-3 ">
+        <button routerLink="/members" class="btn btn-info flex-1">Go back</button>
+        <button class="btn flex-1" (click)="toggleLike(member.id)"
+         [class.btn-primary] = "!hasLiked()"
+         [class.btn-error] = "hasLiked()" >{{hasLiked() ? 'Remove like' : 'Like user'}}</button>
+        
+      </div>
+    </div>
+    <div class="flex bg-base-100 h-[88vh] w-3/4 card p-6">
+      <div class=" flex justify-between">
+         <h3 class="card-title text-3xl text-primary ">{{ title() }}</h3>
+         @if(isCurrentUser()){
+             <button class="btn btn-outline btn-primary" 
+             (click)="memberService.showMemberUpdateForm.set(!memberService.showMemberUpdateForm())">
+             {{memberService.showMemberUpdateForm() ? 'Cancel' : 'Edit'}}</button>
+         }
+         
+      </div>
+      
+      <div class="divider"></div>
+      <div class="h-full">
+        <router-outlet />
+      </div>
+    </div>
+  </div>
+}

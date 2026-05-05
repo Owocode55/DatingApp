@@ -1,0 +1,21 @@
+<div class="flex justify-between">
+<div class="tabs tabs-box tabs-lg text-primary w-fit">
+    @for (tab of tabs; track $index) {
+        <button role="tab" class="tab" [class.tab-active]="memberLikedParams().predicate" (click)="setPredicate(tab.value)">{{tab.label}}</button>
+    }
+</div> 
+@if(members()?.metaData ;as metadata){
+<app-paginator [pageNumber]="metadata.currentPage" [pageSize]="metadata.pageSize" [totalCount]="metadata.totalCount"  (pageChange)="onPageChange($event)" />
+}
+
+
+</div>
+
+    @if((members()?.items ?? []).length > 0){
+       <div class="grid grid-cols-5 gap-6 mt-4">
+          @for (member of members()?.items; track $index) {
+            <app-membercard [member]="member"></app-membercard>
+          }
+       </div>
+    }
+
