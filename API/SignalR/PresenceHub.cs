@@ -30,6 +30,4 @@ public class PresenceHub(PressenceTracker pressenceTracker) : Hub
     {
         return Context.User?.GetMemberId() ?? throw new HubException(); 
     }
-
-
 }

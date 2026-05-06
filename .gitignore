@@ -486,3 +486,8 @@ $RECYCLE.BIN/
 bin/
 obj/
 .env
+# Ignore the main settings file
+appsettings.json
+
+# But do NOT ignore the development version
+!appsettings.Development.json
